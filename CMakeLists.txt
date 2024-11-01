@@ -13,9 +13,7 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_EXTENSIONS ON)
 
 # Set the project name to your project name, my project isn't very descriptive
-project(raylib_game
-        VERSION 0.1.0
-        LANGUAGES C CXX)
+project(disconnected)
 
 # ---- Add dependencies via CPM ----
 ## https://github.com/cpm-cmake/CPM.cmake

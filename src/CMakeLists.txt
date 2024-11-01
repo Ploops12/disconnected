@@ -1,16 +1,40 @@
-add_executable(raylib_game)
+add_executable(${PROJECT_NAME})
 # @NOTE: add more source files here
-target_sources(raylib_game PRIVATE raylib_game.c)
+target_sources(${PROJECT_NAME} PRIVATE raylib_game.cpp
+	Extension.cpp
+	SwitchingPanel.cpp
+	Switchboard.cpp
+	ControlPanel.cpp
+	CordSegment.cpp
+	CordCircuit.cpp
+	CircuitSwitch.cpp
+	PhoneJack.cpp
+	Machine.cpp
+	view_specs/IndicatorLightView.cpp
+	view_specs/NumberPlateView.cpp
+	view_specs/PhonePortView.cpp
+	view_specs/PhoneJackView.cpp
+	view_specs/CordSegmentView.cpp
+	view_specs/CircuitSwitchView.cpp
+	view_specs/BoxView.cpp
+	view_specs/ExtensionView.cpp
+	view_specs/CordCircuitView.cpp
+	view_specs/SwitchingPanelView.cpp
+	view_specs/SwitchboardView.cpp
+	view_specs/ControlPanelView.cpp
+	view_specs/MachineView.cpp
+	view_specs/TalkBoxView.cpp
+)
 
-target_include_directories(raylib_game PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
-target_link_libraries(raylib_game raylib)
+target_include_directories(${PROJECT_NAME} PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
+target_link_libraries(${PROJECT_NAME} raylib)
 if(NOT WIN32)
-    target_link_libraries(raylib_game m)
+    target_link_libraries(${PROJECT_NAME} m)
 endif()
 
 # Web Configurations
 if (${PLATFORM} STREQUAL "Web")
-    set_target_properties(raylib_game PROPERTIES SUFFIX ".html") # Tell Emscripten to build an example.html file.
+    set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".html") # Tell Emscripten to build an example.html file.
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s USE_GLFW=3 -s FORCE_FILESYSTEM=1 -s WASM=1")
 
     set(web_link_flags)
@@ -20,17 +44,17 @@ if (${PLATFORM} STREQUAL "Web")
     set(web_link_flags "${web_link_flags} --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/resources@resources --use-preload-plugins")
     set(web_link_flags "${web_link_flags} --shell-file ${CMAKE_CURRENT_SOURCE_DIR}/minshell.html")
 
-    set_target_properties(raylib_game PROPERTIES LINK_FLAGS "${web_link_flags}")
+    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "${web_link_flags}")
 endif()
 
 # Checks if OSX and links appropriate frameworks (only required on MacOS)
 if(APPLE)
-    target_link_libraries(raylib_game "-framework IOKit")
-    target_link_libraries(raylib_game "-framework Cocoa")
-    target_link_libraries(raylib_game "-framework OpenGL")
+    target_link_libraries(${PROJECT_NAME} "-framework IOKit")
+    target_link_libraries(${PROJECT_NAME} "-framework Cocoa")
+    target_link_libraries(${PROJECT_NAME} "-framework OpenGL")
 endif()
 
 # misc
-set_target_properties(raylib_game PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+set_target_properties(${PROJECT_NAME} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
 # set the startup project for the "play" button in MSVC
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT raylib_game)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})

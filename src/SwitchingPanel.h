@@ -2,7 +2,6 @@
 
 #include "Extension.h"
 #include "Position.h"
-#include "View.h"
 
 #include <vector>
 
@@ -24,7 +23,7 @@ public:
 	Extension* getExtension(int number);
 	const Extension* getExtension(int number) const;
 
-	friend void View<SwitchingPanel>::draw();
+	void draw();
 
 private:
 	int rows;

@@ -1,17 +1,16 @@
-#include "../View.h"
 #include "../CordSegment.h"
+#include "../View.h"
 #include "raylib.h"
 
-template<>
-void View<CordSegment>::draw() {
+void CordSegment::draw() {
 	Color lineColor{BLUE};
-	if (data->color == 1) {
+	if (color == 1) {
 		lineColor = RED;
 	}
 
-	Position startPos = data->getStart();
+	Position startPos = getStart();
 	Vector2 startPoint{(float)startPos.x, (float)startPos.y};
-	Position endPos = data->getEnd();
+	Position endPos = getEnd();
 	Vector2 endPoint{(float)endPos.x, (float)endPos.y};
 	DrawLineEx(startPoint, endPoint, CORD_SEGMENT_WIDTH, lineColor);
 }

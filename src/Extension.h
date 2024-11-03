@@ -6,28 +6,27 @@
 #include "NumberPlate.h"
 #include "IndicatorLight.h"
 #include "Position.h"
-#include "View.h"
-
-constexpr int EXTENSION_ELEMENT_OFFSET {20};
-
-constexpr int EXTENSION_WIDTH { std::max({INDICATOR_LIGHT_RADIUS, PHONE_PORT_RADIUS, NUMBER_PLATE_WIDTH}) };
-constexpr int EXTENSION_HEIGHT { NUMBER_PLATE_HEIGHT + INDICATOR_LIGHT_RADIUS + PHONE_PORT_RADIUS + ((EXTENSION_ELEMENT_OFFSET * 2) - ((NUMBER_PLATE_HEIGHT / 2) + (INDICATOR_LIGHT_RADIUS / 2) + (PHONE_PORT_RADIUS / 2)) - 2)};
 
 class PhoneJack;
+
+constexpr int EXTENSION_ELEMENT_OFFSET {20};
+constexpr int EXTENSION_WIDTH { std::max({INDICATOR_LIGHT_RADIUS, PHONE_PORT_RADIUS, NUMBER_PLATE_WIDTH}) };
+constexpr int EXTENSION_HEIGHT { NUMBER_PLATE_HEIGHT + INDICATOR_LIGHT_RADIUS + PHONE_PORT_RADIUS + ((EXTENSION_ELEMENT_OFFSET * 2) - ((NUMBER_PLATE_HEIGHT / 2) + (INDICATOR_LIGHT_RADIUS / 2) + (PHONE_PORT_RADIUS / 2)) - 2)};
 
 class Extension {
 public:
 	Extension(int number, Position portCenter);
 	void shift(int x, int y);
-	friend void View<Extension>::draw();
+	void draw();
 
 	bool intersect(int x, int y) const;
 	int getNumber() const { return label.number; }
-	bool getJack() const { return jack; }
 	Position getPortCenter() const { return port.center; }
 
-	void insert(PhoneJack* jack);
+	PhoneJack* getJack();
 	void disconnect();
+	// Returns true if connected to when lit
+	bool connect(PhoneJack* jack);
 	void setLight(bool state = true);
 
 private:
@@ -35,5 +34,5 @@ private:
 	NumberPlate label{0, {0,0}};
 	IndicatorLight light;
 	int number{0};
-	PhoneJack* jack{nullptr};
+	PhoneJack* connectedJack{nullptr};
 };

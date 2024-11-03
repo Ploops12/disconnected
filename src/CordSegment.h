@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Position.h"
-#include "View.h"
 
 constexpr int CORD_SEGMENT_MAX_LEN {12};
 constexpr int CORD_SEGMENT_WIDTH {8};
@@ -13,7 +12,7 @@ public:
 	Position getEnd();
 	void shift(int x, int y);
 
-	friend void View<CordSegment>::draw();
+	void draw();
 	int length{0};
 	float angle{0.0};
 

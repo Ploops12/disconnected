@@ -1,19 +1,16 @@
-#include "../View.h"
 #include "../SwitchingPanel.h"
+#include "../View.h"
 #include "raylib.h"
 
 #include <iostream>
 
-template<>
-void View<SwitchingPanel>::draw() {
-	float xSize = data->getVisualWidth();
-	float ySize = data->getVisualHeight();
-	Rectangle bounds{(float)data->origin.x, (float)data->origin.y, xSize, ySize};
-	View<Rectangle> bounds_view(&bounds);
-	bounds_view.draw();
+void SwitchingPanel::draw() {
+	float xSize = getVisualWidth();
+	float ySize = getVisualHeight();
+	Rectangle bounds{(float)origin.x, (float)origin.y, xSize, ySize};
+	DrawRectangleLinesEx(bounds, BOX_LINE_THICKNESS, DEFAULT_ELEMENT_COLOR);
 
-	for (auto ext : data->extensions) {
-		View<Extension> ext_view(&ext);
-		ext_view.draw();
+	for (auto ext : extensions) {
+		ext.draw();
 	}
 }

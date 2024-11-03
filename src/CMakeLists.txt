@@ -10,6 +10,7 @@ target_sources(${PROJECT_NAME} PRIVATE raylib_game.cpp
 	CircuitSwitch.cpp
 	PhoneJack.cpp
 	Machine.cpp
+	TalkBox.cpp
 	view_specs/IndicatorLightView.cpp
 	view_specs/NumberPlateView.cpp
 	view_specs/PhonePortView.cpp

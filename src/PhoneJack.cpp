@@ -1,8 +1,9 @@
 #include "PhoneJack.h"
+#include "Extension.h"
 #include "raylib.h"
 #include "raymath.h"
 
-PhoneJack::PhoneJack(Position origin, int color) : origin(origin), tetherPos(origin), color(color), cord(origin, color, 0) {}
+PhoneJack::PhoneJack(CordCircuit* circuit, Position origin, int color) : origin(origin), tetherPos(origin), color(color), cord(origin, color, 0), circuit(circuit) {}
 
 Position PhoneJack::getEnd() {
 	Vector2 startPoint{(float)origin.x, (float)origin.y};
@@ -46,22 +47,32 @@ bool PhoneJack::intersect(int x, int y) const {
 	return false;
 }
 
-void PhoneJack::setGrab(bool grab) {
-	grabbed = grab;
-}
-
-void PhoneJack::setPort(Port port) {
-	connectedPort = port;
-}
-
-Port PhoneJack::getPort() const {
-	return connectedPort;
-}
-
 void PhoneJack::disconnect() {
 	origin.x = tetherPos.x;
 	origin.y = tetherPos.y;
 	cord.length = 0;
-	connectedPort.boardNum = -1;
-	connectedPort.portNum = -1;
+	grabbed = false;
+
+	if (extension) {
+		extension->disconnect();
+		extension = nullptr;
+	}
+}
+
+void PhoneJack::connect(Extension* ext) {
+	if (extension) {
+		extension->disconnect();
+	}
+
+	extension = ext;
+	extension->connect(this);
+	move(ext->getPortCenter().x, ext->getPortCenter().y);
+}
+
+void PhoneJack::grab() {
+	grabbed = true;
+}
+
+const CordCircuit* PhoneJack::getCircuit() const {
+	return circuit;
 }

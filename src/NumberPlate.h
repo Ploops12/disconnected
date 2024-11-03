@@ -8,4 +8,5 @@ constexpr int NUMBER_PLATE_HEIGHT {10};
 struct NumberPlate {
 	int number;
 	Position center;
+	void draw();
 };

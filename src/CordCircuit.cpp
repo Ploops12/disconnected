@@ -61,43 +61,11 @@ void CordCircuit::move(int x, int y) {
 	switch2.origin.y += yShift;
 }
 
-ControlType stateToType(bool left, SwitchState state) {
-	switch(state) {
-		case SwitchState::TOP:
-			if (left) {
-				return ControlType::SW1_T;
-			} else {
-				return ControlType::SW2_T;
-			}
-
-		case SwitchState::MIDDLE:
-			if (left) {
-				return ControlType::SW1_M;
-			} else {
-				return ControlType::SW2_M;
-			}
-
-		case SwitchState::BOTTOM:
-			if (left) {
-				return ControlType::SW1_B;
-			} else {
-				return ControlType::SW2_B;
-			}
-	}
-
-	return ControlType::NONE;
-}
-
 ControlType CordCircuit::getControlClicked(int x, int y) const {
 	if (jack1.intersect(x, y)) { return ControlType::JACK1; }
 	else if (jack2.intersect(x, y)) { return ControlType::JACK2; }
-
-	SwitchSection section = switch1.intersect(x, y);
-	if (section.valid) { return stateToType(true, section.state); }
-
-	section = switch2.intersect(x, y);
-	if (section.valid) { return stateToType(false, section.state); }
-
+	else if (switch1.intersect(x, y)) { return ControlType::SW1; }
+	else if (switch2.intersect(x, y)) { return ControlType::SW2; }
 	return ControlType::NONE;
 }
 
@@ -111,13 +79,9 @@ void* CordCircuit::getControl(ControlType type) {
 			return &jack1;
 		case ControlType::JACK2:
 			return &jack2;
-		case ControlType::SW1_T:
-		case ControlType::SW1_M:
-		case ControlType::SW1_B:
+		case ControlType::SW1:
 			return &switch1;
-		case ControlType::SW2_T:
-		case ControlType::SW2_M:
-		case ControlType::SW2_B:
+		case ControlType::SW2:
 			return &switch2;
 	}
 	return nullptr;
@@ -133,13 +97,9 @@ const void* CordCircuit::getControl(ControlType type) const {
 			return &jack1;
 		case ControlType::JACK2:
 			return &jack2;
-		case ControlType::SW1_T:
-		case ControlType::SW1_M:
-		case ControlType::SW1_B:
+		case ControlType::SW1:
 			return &switch1;
-		case ControlType::SW2_T:
-		case ControlType::SW2_M:
-		case ControlType::SW2_B:
+		case ControlType::SW2:
 			return &switch2;
 	}
 	return nullptr;

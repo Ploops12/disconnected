@@ -1,4 +1,5 @@
 #include "Extension.h"
+#include "PhoneJack.h"
 #include "raylib.h"
 
 Extension::Extension(int number, Position portCenter) :
@@ -23,12 +24,17 @@ bool Extension::intersect(int x, int y) const {
 	return CheckCollisionPointCircle({(float)x, (float)y}, {(float)port.center.x, (float)port.center.y}, PHONE_PORT_RADIUS);
 }
 
-void Extension::disconnect() {
-	jack = nullptr;
+PhoneJack* Extension::getJack() {
+	return connectedJack;
 }
 
-void Extension::insert(PhoneJack* jack) {
-	this->jack = jack;
+void Extension::disconnect() {
+	connectedJack = nullptr;
+}
+
+bool Extension::connect(PhoneJack* jack) {
+	connectedJack = jack;
+	return light.active;
 }
 
 void Extension::setLight(bool state) {

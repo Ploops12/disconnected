@@ -2,7 +2,6 @@
 
 #include "Switchboard.h"
 #include "ControlPanel.h"
-#include "View.h"
 
 class Machine {
 public:
@@ -21,10 +20,11 @@ public:
 	ControlPtr getControl(Control control);
 	const ConstControlPtr getControl(Control control) const;
 
-	friend void View<Machine>::draw();
+	void shift(int x, int y);
+	void draw();
 
 private:
-	void move(int x, int y);
+	void recenter();
 
 	Position origin{0,0};
 	Switchboard switchboard;

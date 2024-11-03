@@ -2,7 +2,6 @@
 
 #include "SwitchingPanel.h"
 #include "Position.h"
-#include "View.h"
 #include "Port.h"
 
 #include <vector>
@@ -22,7 +21,7 @@ public:
 	Extension* getExtension(Port port);
 	const Extension* getExtension(Port port) const;
 
-	friend void View<Switchboard>::draw();
+	void draw();
 
 private:
 	void recenter();

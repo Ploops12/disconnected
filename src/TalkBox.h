@@ -3,8 +3,12 @@
 #include <string>
 
 struct TalkBox {
-	int width{0};
-	int height{0};
+	int width{200};
+	int height{150};
+	std::string speaker;
 	std::string text;
-	bool visible{false};
 };
+
+void ResizeTalkBox(int x, int y);
+void SetTalkBox(std::string speaker, std::string text);
+void DrawTalkBox();

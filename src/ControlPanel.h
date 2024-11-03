@@ -1,7 +1,6 @@
 #pragma once
 
 #include "CordCircuit.h"
-#include "View.h"
 
 #include <vector>
 
@@ -32,7 +31,7 @@ public:
 	ControlPtr getControl(Control control);
 	const ConstControlPtr getControl(Control control) const;
 
-	friend void View<ControlPanel>::draw();
+	void draw();
 
 private:
 	int getCircuitSize() const;

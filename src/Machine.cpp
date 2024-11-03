@@ -7,10 +7,8 @@ Machine::Machine(int screenWidth, int screenHeight) {
 
 bool Machine::addPanel(int rows, int cols) {
 	bool retVal = switchboard.addPanel(rows, cols, 0);
-	int shiftX = switchboard.getVisualWidth() / 2;
-	int shiftY = (switchboard.getVisualHeight() + controls.getVisualHeight()) / 2;
 	controls.setWidth(switchboard.getVisualWidth());
-	move(origin.x - shiftX, origin.y - shiftY);
+	recenter();
 	return retVal;
 }
 
@@ -19,9 +17,17 @@ bool Machine::addCordCircuit() {
 	return retVal;
 }
 
-void Machine::move(int x, int y) {
-	switchboard.move(x, y);
-	controls.move(x, y + switchboard.getVisualHeight() - 2);
+void Machine::shift(int x, int y) {
+	origin.x += x;
+	origin.y += y;
+	recenter();
+}
+
+void Machine::recenter() {
+	int shiftX = switchboard.getVisualWidth() / 2;
+	int shiftY = (switchboard.getVisualHeight() + controls.getVisualHeight()) / 2;
+	switchboard.move(origin.x - shiftX, origin.y - shiftY);
+	controls.move(origin.x - shiftX, origin.y - shiftY + switchboard.getVisualHeight() - 2);
 }
 
 Port Machine::getPortClicked(int x, int y) const {

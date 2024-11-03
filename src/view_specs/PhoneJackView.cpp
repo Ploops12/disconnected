@@ -1,31 +1,29 @@
-#include "../View.h"
 #include "../PhoneJack.h"
+#include "../View.h"
 #include "raylib.h"
 #include "raymath.h"
 
 #define PHONE_JACK_LEAD_COLOR YELLOW
 
-template<>
-void View<PhoneJack>::draw() {
+void PhoneJack::draw() {
 	Color jackColor{BLUE};
-	if (data->color == 1) { jackColor = RED; }
+	if (color == 1) { jackColor = RED; }
 
-	if (data->grabbed) {
+	if (grabbed) {
 		jackColor.r *= 0.85;
 		jackColor.g *= 0.85;
 		jackColor.b *= 0.85;
-		DrawCircle(data->origin.x, data->origin.y, PHONE_JACK_RADIUS, jackColor);
+		DrawCircle(origin.x, origin.y, PHONE_JACK_RADIUS, jackColor);
 	}
 
 	// TODO: Make this draw a vector of segments
-	View<CordSegment> cord_view(&data->cord);
-	cord_view.draw();
+	cord.draw();
 
 	// If grabbed, do not render upright cable
-	if (data->grabbed) { return; }
+	if (grabbed) { return; }
 
-	Vector2 jackStart{(float)data->origin.x, (float)data->origin.y};
-	Position endPos = data->getEnd();
+	Vector2 jackStart{(float)origin.x, (float)origin.y};
+	Position endPos = getEnd();
 	Vector2 jackEnd{(float)endPos.x, (float)endPos.y};
 
 	Vector2 sheathEnd = Vector2MoveTowards(jackStart, jackEnd, (float)PHONE_JACK_SHEATH_LEN);
